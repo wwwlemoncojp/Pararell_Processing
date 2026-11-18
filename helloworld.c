@@ -3,7 +3,7 @@
 
 void HelloWorld(){
     int i;
-    #pragma omp parallel /* num_threads() */
+    #pragma omp parallel num_threads(4)
     {
         #pragma omp for
         for(i = 0; i < 48; i++){
