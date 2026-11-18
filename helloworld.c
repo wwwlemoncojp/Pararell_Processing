@@ -1,11 +1,17 @@
 #include <stdio.h>
+#include <omp.h>
 
 void HelloWorld(){
     int i;
-    for(i = 0; i < 32; i++){
-        printf("Hello %d\n", i);
+    #pragma omp parallel /* num_threads() */
+    {
+        #pragma omp for
+        for(i = 0; i < 48; i++){
+            printf("Hello %d\n", i);
 
+        }
     }
+    
 }
 
 int main(){
