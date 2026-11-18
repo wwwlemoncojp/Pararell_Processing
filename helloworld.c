@@ -7,7 +7,7 @@ void HelloWorld(){
     {
         #pragma omp for
         for(i = 0; i < 48; i++){
-            printf("Hello %d\n", i);
+            printf("Hello %d %d of %d\n", i, omp_get_thread_num(),omp_get_num_threads());
 
         }
     }
@@ -16,5 +16,6 @@ void HelloWorld(){
 
 int main(){
     HelloWorld();
+    
     return 0; 
 }
