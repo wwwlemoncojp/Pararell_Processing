@@ -17,9 +17,9 @@ int main(){
     hc = (float **)malloc(Max * sizeof(float *));
 
     for(i = 0; i < Max; i++){
-        a[i] = (float *)malloc(sizeof(float *) * Max);
-        b[i] = (float *)malloc(sizeof(float *) * Max);
-        hc[i] = (float *)malloc(sizeof(float *) * Max);
+        a[i] = (float *)malloc(sizeof(float) * Max);
+        b[i] = (float *)malloc(sizeof(float) * Max);
+        hc[i] = (float *)malloc(sizeof(float) * Max);
     }
     
     for(i = 0; i < Max; i++){
@@ -31,7 +31,7 @@ int main(){
 
     printf("a\n");
     
-    #pragma omp parallel num_threads(12)
+    #pragma omp parallel num_threads(1)
     {
         printf("%d", omp_get_num_threads());
         
@@ -44,11 +44,10 @@ int main(){
                 hc[i][j] = a[i][j] + b[i][j];
             }
         }
+            end = omp_get_wtime();
 
     }
 
-
-    end = omp_get_wtime();
 
     printf("\nCal End\n");
     printf("\nProcessing Time : %.10lf [s]", (double)(end - start));
