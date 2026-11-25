@@ -12,28 +12,25 @@ float a[Max], b[Max], c[Max];
 int main(){
     int i;
 
-    // a = (float *)malloc(Max * sizeof(float));
-    // b = (float *)malloc(Max * sizeof(float));
-    // c = (float *)malloc(Max * sizeof(float));
+    #pragma omp parallel num_threads(10)
+    {
 
-    start = omp_get_wtime();
+        for(i = 0; i < Max; i++){
+            a[i] = i * 1.e0f;
+            b[i] = i * 2.e0f;
+        }
 
+        printf("%d", omp_get_num_threads());
 
+        start = omp_get_wtime();
 
-    for(i = 0; i < Max; i++){
-        a[i] = i * 1.e0f;
-        b[i] = i * 2.e0f;
-    }
-
-    #pragma omp parallel num_threads(12)
-
-    printf("%d", omp_get_num_threads());
-
-    #pragma omp for
+        #pragma omp for
 
 
-    for(i = 0; i < Max; i++){
-        c[i] = a[i] + b[i];
+        for(i = 0; i < Max; i++){
+            c[i] = a[i] + b[i];
+        }
+
     }
 
     end = omp_get_wtime();
