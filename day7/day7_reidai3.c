@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define Max 1000
+#define Max 10000
 
 double start, end;
 
@@ -22,7 +22,7 @@ int main(){
         
     }
 
-    #pragma omp parallel num_threads(4)
+    #pragma omp parallel num_threads(12)
 
     printf("%d", omp_get_num_threads());
 
