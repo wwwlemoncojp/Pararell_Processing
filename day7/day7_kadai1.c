@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <omp.h>
-#include <time.h>
 #include <stdlib.h>
 
 #define Max 100000000
