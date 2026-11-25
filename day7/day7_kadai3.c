@@ -3,41 +3,50 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define Max 100000000
+#define Max 10000
 
 double start, end;
 
 float **a, **b, **c, **hc;
 
 int main(){
-    int i, j, n = 1024;
+    int i, j;
 
-    a = (float **)malloc(n * sizeof(float *));
-    b = (float **)malloc(n * sizeof(float *));
-    hc = (float **)malloc(n * sizeof(float *));
+    a = (float **)malloc(Max * sizeof(float *));
+    b = (float **)malloc(Max * sizeof(float *));
+    hc = (float **)malloc(Max * sizeof(float *));
 
-    for(i = 0; i < n; i++){
-        a[i] = (float *)malloc(sizeof(float *) * n);
-        b[i] = (float *)malloc(sizeof(float *) * n);
-        hc[i] = (float *)malloc(sizeof(float *) * n);
+    for(i = 0; i < Max; i++){
+        a[i] = (float *)malloc(sizeof(float *) * Max);
+        b[i] = (float *)malloc(sizeof(float *) * Max);
+        hc[i] = (float *)malloc(sizeof(float *) * Max);
     }
     
     for(i = 0; i < Max; i++){
         for(j = 0; j < Max; j++){
-            a[i][j] = (float)(rand() / 4096);
-            b[i][j] = (float)(rand() / 4096);
+            a[i][j] = i * j * 1.e0f;
+            b[i][j] = i * j * 2.e0f;
         }
     }
-    
-    #pragma omp parallel
-    
-    start = omp_get_wtime();
 
-    #pragma omp for
+    printf("a\n");
+    
+    #pragma omp parallel num_threads(12)
+    {
+        printf("%d", omp_get_num_threads());
+        
+        start = omp_get_wtime();
+    
+        #pragma omp for private(j)
+    
+        for(i = 0; i < Max; i++){
+            for(j = 0; j < Max; j++){
+                hc[i][j] = a[i][j] + b[i][j];
+            }
+        }
 
-    for(i = 0; i < Max; i++){
-        c[i] = a[i] + b[i];
     }
+
 
     end = omp_get_wtime();
 
@@ -47,7 +56,6 @@ int main(){
     free(a);
     free(b);
     free(c);
-    
 
     return 0;
 }

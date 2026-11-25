@@ -12,8 +12,7 @@ float a[Max][Max], b[Max][Max], c[Max][Max];
 int main(){
     int i, j;
 
-    start = omp_get_wtime();
-
+    
     for(i = 0; i < Max; i++){
         for(j = 0; j < Max; j++){
             a[i][j] = i * j * 1.e0f;
@@ -21,19 +20,23 @@ int main(){
         }
         
     }
+    
+    start = omp_get_wtime();
 
     #pragma omp parallel num_threads(12)
+    {
+        printf("%d", omp_get_num_threads());
+    
+        #pragma omp for private(j)
 
-    printf("%d", omp_get_num_threads());
-
-    #pragma omp for private(i)
-
-
-    for(i = 0; i < Max; i++){
-        for(j = 0; j < Max; j++){
-            c[i][j] = a[i][j] + b[i][j];
+        for(i = 0; i < Max; i++){
+            for(j = 0; j < Max; j++){
+                c[i][j] = a[i][j] + b[i][j];
+            }
         }
+
     }
+
 
     end = omp_get_wtime();
 
