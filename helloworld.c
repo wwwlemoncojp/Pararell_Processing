@@ -3,11 +3,11 @@
 
 void HelloWorld(){
     int i;
-    #pragma omp parallel num_threads(4)
+    #pragma omp parallel
     {
         #pragma omp for
         for(i = 0; i < 48; i++){
-            printf("Hello %d %d of %d\n", i, omp_get_thread_num(),omp_get_num_threads());
+            printf("Hello %d %d of %d\n", i, omp_get_thread_num(), omp_get_num_threads());
 
         }
     }
