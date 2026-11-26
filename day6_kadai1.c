@@ -16,7 +16,11 @@ int main(){
         #pragma omp for
 
         for(i = 0; i < N; i++){
-            c[i] = a[i] + b[i];
+            if(omp_get_thread_num() % 2 == 0){
+                c[i] = a[i] - b[i];
+            }else{
+                c[i] = a[i] + b[i];
+            }
             printf("c[] = %f @ %d : %d @ %d\n", c[i], i, omp_get_thread_num(), omp_get_num_threads());
         }
     }
